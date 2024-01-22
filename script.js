@@ -15,21 +15,28 @@ function createPlayer (name, marker) {
 
 const gameFuncs = (function (){
     const checkWinner = function(player) {
-        for(let i = 0; i <=3; i++){
-          if (gameboard.Gameboard[i] === player.marker && 
-              gameboard.Gameboard[i + 1] === player.marker && 
-              gameboard.Gameboard[i + 2] === player.marker) {
+        for(let i = 0; i <3; i++){
+          if (gameboard.Gameboard[i * 3] === player.marker && 
+              gameboard.Gameboard[i * 3 + 1] === player.marker && 
+              gameboard.Gameboard[i * 3 + 2] === player.marker) {
               return `win on row ${i + 1}`
             }
           }
-        for(let i = 0; i <=3; i++){
+        for(let i = 0; i <3; i++){
         if (gameboard.Gameboard[i] === player.marker && 
             gameboard.Gameboard[i + 3] === player.marker && 
             gameboard.Gameboard[i + 6] === player.marker) {
             return `win on column ${i + 1}`
             }
         }
-      }
+        if (gameboard.Gameboard[4] === player.marker && 
+            (gameboard.Gameboard[0] === player.marker && 
+            gameboard.Gameboard[8] === player.marker) ||
+            (gameboard.Gameboard[2] === player.marker && 
+            gameboard.Gameboard[6] === player.marker)) {
+            return `win on diag`
+            }
+        }
     const addMarker = function (boardSpace, mark){
         return gameboard.Gameboard.splice(boardSpace, 1, mark)
     }
