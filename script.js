@@ -11,12 +11,16 @@ function createPlayer (name, marker) {
 }
 
 const gameFuncs = (function (){
+    const clearGameboard = function () {
+        return gameboard.Gameboard = ["","","","","","","","",""]
+    }
     const checkWinner = function(player) {
         for(let i = 0; i <3; i++){
         if (gameboard.Gameboard[i * 3] === player.playerMarker && 
             gameboard.Gameboard[i * 3 + 1] === player.playerMarker && 
             gameboard.Gameboard[i * 3 + 2] === player.playerMarker) {
             player.score += 1
+            clearGameboard()
             return console.log(`win on row ${i + 1}, ${player.playerName} has ${player.score} points`)
             }
         }
@@ -39,10 +43,11 @@ const gameFuncs = (function (){
         }
     const addMarker = function (boardSpace, marker, player){
         gameboard.Gameboard.splice(boardSpace, 1, marker)
-        checkWinner(player)
-        return gameboard.Gameboard
+        console.log(gameboard.Gameboard)
+        return checkWinner(player)
+
     }
-    return {checkWinner, addMarker,}
+    return {clearGameboard, checkWinner, addMarker,}
 })();
 //add a board reset function
 const playGame = (function () {
