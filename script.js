@@ -29,6 +29,7 @@ const gameFuncs = (function (){
             gameboard.Gameboard[i + 3] === player.playerMarker && 
             gameboard.Gameboard[i + 6] === player.playerMarker) {
             player.score += 1
+            clearGameboard()
             return console.log(`win on column ${i + 1}, ${player.playerName} has ${player.score} points`)
             }
         }
@@ -38,6 +39,7 @@ const gameFuncs = (function (){
             (gameboard.Gameboard[2] === player.marker && 
             gameboard.Gameboard[6] === player.marker))) {
             player.score += 1
+            clearGameboard()
             return console.log(`win on diag, ${player.playerName} has ${player.score} points`)
             }
         }
