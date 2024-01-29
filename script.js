@@ -14,6 +14,12 @@ const gameFuncs = (function (){
     const clearGameboard = function () {
         return gameboard.Gameboard = ["","","","","","","","",""]
     }
+    const checkGameover = function (player){
+        if (player.score === 3) {
+            return true
+        }
+        else return false
+    }
     const checkWinner = function(player) {
         for(let i = 0; i <3; i++){
         if (gameboard.Gameboard[i * 3] === player.playerMarker && 
@@ -21,7 +27,7 @@ const gameFuncs = (function (){
             gameboard.Gameboard[i * 3 + 2] === player.playerMarker) {
             player.score += 1
             clearGameboard()
-            return console.log(`win on row ${i + 1}, ${player.playerName} has ${player.score} points`)
+            return checkGameover(player) === true ? `${player.playerName} wins!` : `win on row ${i + 1}, ${player.playerName} has ${player.score} points`
             }
         }
         for(let i = 0; i <3; i++){
@@ -49,7 +55,7 @@ const gameFuncs = (function (){
         return checkWinner(player)
 
     }
-    return {clearGameboard, checkWinner, addMarker,}
+    return {clearGameboard, checkGameover, checkWinner, addMarker,}
 })();
 //add a board reset function
 const playGame = (function () {
