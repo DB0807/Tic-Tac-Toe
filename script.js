@@ -26,8 +26,7 @@ const gameFuncs = (function (){
             gameboard.Gameboard[i * 3 + 1] === player.playerMarker && 
             gameboard.Gameboard[i * 3 + 2] === player.playerMarker) {
             player.score += 1
-            clearGameboard()
-            return checkGameover(player) === true ? `${player.playerName} wins!` : `win on row ${i + 1}, ${player.playerName} has ${player.score} points`
+            return console.log(`win on row ${i + 1}, ${player.playerName} has ${player.score} points`)
             }
         }
         for(let i = 0; i <3; i++){
@@ -35,7 +34,6 @@ const gameFuncs = (function (){
             gameboard.Gameboard[i + 3] === player.playerMarker && 
             gameboard.Gameboard[i + 6] === player.playerMarker) {
             player.score += 1
-            clearGameboard()
             return console.log(`win on column ${i + 1}, ${player.playerName} has ${player.score} points`)
             }
         }
@@ -45,7 +43,6 @@ const gameFuncs = (function (){
             (gameboard.Gameboard[2] === player.marker && 
             gameboard.Gameboard[6] === player.marker))) {
             player.score += 1
-            clearGameboard()
             return console.log(`win on diag, ${player.playerName} has ${player.score} points`)
             }
         }
@@ -53,12 +50,18 @@ const gameFuncs = (function (){
         gameboard.Gameboard.splice(boardSpace, 1, marker)
         console.log(gameboard.Gameboard)
         return checkWinner(player)
-
     }
     return {clearGameboard, checkGameover, checkWinner, addMarker,}
 })();
 //add a board reset function
-const playGame = (function () {
-    //const playerOne = createPlayer ('Player one', 'X')
-    //const playerTwo = createPlayer ('Player two', 'O')
-})();
+const playGame = function () {
+    let winner = ''
+    const playerOne = createPlayer(prompt('Enter your name:', 'Player One'), prompt('Choose your marker:','X'))
+    const playerTwo = createPlayer(prompt('Enter your name:', 'Player Two'), prompt('Choose your marker:','O'))
+    while (winner === '') {
+        gameFuncs.addMarker(prompt('Choose your square:',), playerOne.playerMarker, playerOne)
+        gameFuncs.addMarker(prompt('Choose your square:',), playerTwo.playerMarker, playerTwo)        
+    }
+    if (checkGameover(player) === true) {return `${player.playerName} wins!`}
+    clearGameboard()
+};
