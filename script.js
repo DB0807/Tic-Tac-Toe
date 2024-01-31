@@ -53,13 +53,14 @@ const gameFuncs = (function (){
             }
         }
     const addMarker = function (boardSpace, marker, player){
-        if (boardSpace >= 8){
+        if (boardSpace <= 8 && gameboard.Gameboard[boardSpace] === ""){
             gameboard.Gameboard.splice(boardSpace, 1, marker)
             console.log(gameboard.Gameboard)
         //need to check if === '' before adding marker
         //check if <9
             return checkWinner(player)
         }
+        else return alert('Dont cheat, skip a go!')
     }
     return {changeActivePlayer, clearGameboard, checkGameover, checkWinner, addMarker,}
 })();
