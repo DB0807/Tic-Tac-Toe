@@ -1,6 +1,8 @@
 const gameboard = (function () {
     const Gameboard = ["","","","","","","","",""]
-    return {Gameboard,}
+    const viewGameboard = () => Gameboard
+    let winner = false
+    return {Gameboard, winner, viewGameboard}
 })();
 
 function createPlayer (name, marker) {
@@ -11,6 +13,9 @@ function createPlayer (name, marker) {
 }
 
 const gameFuncs = (function (){
+    const changeActivePlayer = function (currentPlayer, playerOne, playerTwo) {
+        return currentPlayer === playerOne ? playerTwo : playerOne;
+    }
     const clearGameboard = function () {
         return gameboard.Gameboard = ["","","","","","","","",""]
     }
@@ -26,6 +31,7 @@ const gameFuncs = (function (){
             gameboard.Gameboard[i * 3 + 1] === player.playerMarker && 
             gameboard.Gameboard[i * 3 + 2] === player.playerMarker) {
             player.score += 1
+            gameboard.winner = true
             return console.log(`win on row ${i + 1}, ${player.playerName} has ${player.score} points`)
             }
         }
@@ -37,31 +43,37 @@ const gameFuncs = (function (){
             return console.log(`win on column ${i + 1}, ${player.playerName} has ${player.score} points`)
             }
         }
-        if (gameboard.Gameboard[4] === player.marker && 
-            ((gameboard.Gameboard[0] === player.marker && 
-            gameboard.Gameboard[8] === player.marker) ||
-            (gameboard.Gameboard[2] === player.marker && 
-            gameboard.Gameboard[6] === player.marker))) {
+        if (gameboard.Gameboard[4] === player.playerMarker && 
+            ((gameboard.Gameboard[0] === player.playerMarker && 
+            gameboard.Gameboard[8] === player.playerMarker) ||
+            (gameboard.Gameboard[2] === player.playerMarker && 
+            gameboard.Gameboard[6] === player.playerMarker))) {
             player.score += 1
             return console.log(`win on diag, ${player.playerName} has ${player.score} points`)
             }
         }
     const addMarker = function (boardSpace, marker, player){
-        gameboard.Gameboard.splice(boardSpace, 1, marker)
-        console.log(gameboard.Gameboard)
-        return checkWinner(player)
+        if (boardSpace >= 8){
+            gameboard.Gameboard.splice(boardSpace, 1, marker)
+            console.log(gameboard.Gameboard)
+        //need to check if === '' before adding marker
+        //check if <9
+            return checkWinner(player)
+        }
     }
-    return {clearGameboard, checkGameover, checkWinner, addMarker,}
+    return {changeActivePlayer, clearGameboard, checkGameover, checkWinner, addMarker,}
 })();
 //add a board reset function
 const playGame = function () {
-    let winner = ''
     const playerOne = createPlayer(prompt('Enter your name:', 'Player One'), prompt('Choose your marker:','X'))
     const playerTwo = createPlayer(prompt('Enter your name:', 'Player Two'), prompt('Choose your marker:','O'))
-    while (winner === '') {
-        gameFuncs.addMarker(prompt('Choose your square:',), playerOne.playerMarker, playerOne)
-        gameFuncs.addMarker(prompt('Choose your square:',), playerTwo.playerMarker, playerTwo)        
+    let activePlayer = playerOne
+    // let activePlayer === something to choose player randomly
+    //create function to switch active player, like if player === x ? y : x
+    while (gameboard.winner === false) {
+        gameFuncs.addMarker(prompt('Choose your square:',), activePlayer.playerMarker, activePlayer)
+        activePlayer = gameFuncs.changeActivePlayer(activePlayer, playerOne, playerTwo)       
     }
-    if (checkGameover(player) === true) {return `${player.playerName} wins!`}
-    clearGameboard()
+    //if (checkGameover(player) === true) {return `${player.playerName} wins!`}
+    //clearGameboard()
 };
