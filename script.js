@@ -1,8 +1,9 @@
-const gameboard = (function () {
-    const Gameboard = ["","","","","","","","",""]
-    const viewGameboard = () => Gameboard
+//change gameboared logic thorughout so correct versions of Gameboard and gameboard are used
+const Gameboard = (function () {
+    const gameboard = ["","","","","","","","",""]
+    const getBoard = () => gameboard
     let winner = false
-    return {Gameboard, winner, viewGameboard}
+    return {gameboard, winner, getBoard}
 })()
 
 const gameFuncs = (function (){
@@ -63,7 +64,17 @@ const gameFuncs = (function (){
 })();
 
 const displayLogic = (function (){
+    const board = Gameboard.getBoard()
+    const boardContainer = document.querySelector('#gameboard-container')
+    const createSpace = function () {
+        const boardSpace = document.createElement('div')
+        boardSpace.setAttribute('style', 'height:10px; width:10px; background-color:black;')
+        boardContainer.appendChild(boardSpace)
+        return boardSpace
+    }
+    render = () => board.forEach(createSpace)
 
+    return {render,}
 })();
 
 const playGame = function () {
@@ -75,8 +86,10 @@ const playGame = function () {
     const playerOne = createPlayer(prompt('Enter your name:', 'Player One'), prompt('Choose your marker:','X'))
     const playerTwo = createPlayer(prompt('Enter your name:', 'Player Two'), prompt('Choose your marker:','O'))
     let activePlayer = gameFuncs.chooseRandomPlayer(playerOne, playerTwo)
-    while (gameboard.winner === false) {
+    while (Gameboard.winner === false) {
         gameFuncs.addMarker(prompt(`${activePlayer.playerName}, Choose your square:`), activePlayer.playerMarker, activePlayer)
         activePlayer = gameFuncs.changeActivePlayer(activePlayer, playerOne, playerTwo)       
     }
 };
+
+displayLogic.render()
