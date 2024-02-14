@@ -13,6 +13,11 @@ function createPlayer (name, marker) {
 }
 
 const gameFuncs = (function (){
+
+    const chooseRandomPlayer = function (playerOne, playerTwo) {
+        let playerNum = Math.floor(Math.random() * 2)
+        return playerNum === 0 ? playerOne : playerTwo
+    }
     const changeActivePlayer = function (currentPlayer, playerOne, playerTwo) {
         return currentPlayer === playerOne ? playerTwo : playerOne;
     }
@@ -62,19 +67,17 @@ const gameFuncs = (function (){
         }
         else return alert('Dont cheat, skip a go!')
     }
-    return {changeActivePlayer, clearGameboard, checkGameover, checkWinner, addMarker,}
+    return {chooseRandomPlayer, changeActivePlayer, clearGameboard, checkGameover, checkWinner, addMarker,}
 })();
 //add a board reset function
 const playGame = function () {
     const playerOne = createPlayer(prompt('Enter your name:', 'Player One'), prompt('Choose your marker:','X'))
     const playerTwo = createPlayer(prompt('Enter your name:', 'Player Two'), prompt('Choose your marker:','O'))
-    let activePlayer = playerOne
-    // let activePlayer === something to choose player randomly
-    //create function to switch active player, like if player === x ? y : x
+    let activePlayer = gameFuncs.chooseRandomPlayer(playerOne, playerTwo)
     while (gameboard.winner === false) {
-        gameFuncs.addMarker(prompt('Choose your square:',), activePlayer.playerMarker, activePlayer)
+        gameFuncs.addMarker(prompt(`${activePlayer.playerName}, Choose your square:`), activePlayer.playerMarker, activePlayer)
         activePlayer = gameFuncs.changeActivePlayer(activePlayer, playerOne, playerTwo)       
     }
+    
     //if (checkGameover(player) === true) {return `${player.playerName} wins!`}
-    //clearGameboard()
 };
