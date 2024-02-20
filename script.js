@@ -63,19 +63,22 @@ const gameFuncs = (function (){
             addMarker,}
 })();
 
-const displayLogic = (function (){
+const displayLogic = function (){
     const board = Gameboard.getBoard()
     const boardContainer = document.querySelector('#gameboard-container')
+    let spaceNum = 0
     const createSpace = function () {
         const boardSpace = document.createElement('div')
-        boardSpace.setAttribute('style', 'height:10px; width:10px; background-color:black;')
+        boardSpace.dataset.spaceNum = spaceNum
+        boardSpace.classList.add('board-space')
         boardContainer.appendChild(boardSpace)
+        spaceNum += 1
         return boardSpace
     }
     render = () => board.forEach(createSpace)
 
     return {render,}
-})();
+}();
 
 const playGame = function () {
      const createPlayer = function (name, marker) {
