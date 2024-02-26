@@ -22,7 +22,7 @@ const gameFuncs = (function (){
             Gameboard.gameboard[i * 3 + 1] === player.playerMarker && 
             Gameboard.gameboard[i * 3 + 2] === player.playerMarker) {
             Gameboard.winner = true
-            return console.log(`win on row ${i + 1}, ${player.playerName}`)
+            return console.log(`${player.playerName} has won on row ${i + 1}!`)
             }
         }
         for(let i = 0; i <3; i++){
@@ -30,7 +30,7 @@ const gameFuncs = (function (){
             Gameboard.gameboard[i + 3] === player.playerMarker && 
             Gameboard.gameboard[i + 6] === player.playerMarker) {
             Gameboard.winner = true
-            return console.log(`win on column ${i + 1}, ${player.playerName}`)
+            return console.log(`${player.playerName} has won on col ${i + 1}!`)
             }
         }
         if (Gameboard.gameboard[4] === player.playerMarker && 
@@ -39,9 +39,14 @@ const gameFuncs = (function (){
             (Gameboard.gameboard[2] === player.playerMarker && 
             Gameboard.gameboard[6] === player.playerMarker))) {
             Gameboard.winner = true
-            return console.log(`win on diag, ${player.playerName}`)
+            return console.log(`${player.playerName} has won on a diagonal!`)
+            }
+        if (!Gameboard.gameboard.includes("")) {
+            Gameboard.winner = true;
+            return console.log("It's a draw!");
             }
         }
+        
 
     const addMarker = function (boardSpace, marker, player){
         if (boardSpace <= 8 && Gameboard.gameboard[boardSpace] === ""){
@@ -99,6 +104,7 @@ const playGame = function () {
 
     const playerOne = createPlayer(prompt('Enter your name:', 'Player One'), prompt('Choose your marker:','X'))
     const playerTwo = createPlayer(prompt('Enter your name:', 'Player Two'), prompt('Choose your marker:','O'))
+
     let activePlayer = gameFuncs.chooseRandomPlayer(playerOne, playerTwo)
 
     const changeActivePlayer = function (currentPlayer, playerOne, playerTwo) {
@@ -107,9 +113,10 @@ const playGame = function () {
 
     boardSpaces.forEach(boardSpace => {
         boardSpace.addEventListener('click', () => {
+        if (Gameboard.winner != true){
         gameFuncs.addMarker(boardSpace.dataset.spaceNum, activePlayer.playerMarker, activePlayer)
         activePlayer = changeActivePlayer(activePlayer, playerOne, playerTwo)
-        updateBoard()
+        updateBoard()}
         })
     });
 };
